@@ -54,8 +54,6 @@ struct Order {
 void processOrder(std::vector<Order>& orders,
                    const PaymentMethod& paymentMethod) {
 
-
-
     bool v = std::any_of(orders.begin(),orders.end(), [](const Order& o){
         return o.amount < 1000;
     });
@@ -88,12 +86,14 @@ int main()
     std::unique_ptr<PaypalPayment> email = make_unique<PaypalPayment>("test");
 
     std::vector<Order> orders = {
-        {1, 300},
+        {1, 4000},
         {2, 1200},
         {3, 800},
-        {4, -200}
+        {4, 200}
     };
 
+    processOrder(orders, *card);
+    processOrder(orders, *email); // Kod akışında 500'den küçük değerleri sildiği için silinen değer kadar eksi çıkabilir
     processOrder(orders, *card);
 
     return 0;
